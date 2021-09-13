@@ -171,6 +171,8 @@ function App() {
     setScore(0)
   }
 
+  // Should switch to conditional rendering in the React app but don't have time to fixs
+
   function hideLoseModal(){
     document.getElementById('loseModal').style.display = "none";
     document.getElementById('darkScreen').style.display = 'none'
