@@ -145,23 +145,30 @@ function App() {
       showScoreModal()
     }
     else showLoseModal()
+  }
+
+
+  async function hideModals(){
+    hideLoseModal()
+    hideScoreModal()
+
+    document.getElementById('darkScreen').style.display = 'none'
+
     // reset cards
     let arr = []
     let tempArr = [...cards]
-    console.log(cards)
+
     for (let i = 0; i < cards.length; i++){
       let temp = tempArr[i]
       temp.clicked = false
       arr.push(temp)
     }
-    randomize()
+    
+    console.log('reset cards')
+    console.log(cards)
+    await setCards(arr)
+    await randomize()
     setScore(0)
-  }
-
-  function hideModals(){
-    hideLoseModal()
-    hideScoreModal()
-    document.getElementById('darkScreen').style.display = 'none'
   }
 
   function hideLoseModal(){
@@ -187,7 +194,7 @@ function App() {
     document.getElementById('scoreModal').style.display = 'block'
   }
   
-  function randomize(){
+  async function randomize(){
     let arr = [...cards]
     for (let i = 0; i < cards.length; i++){
       let index = Math.floor(Math.random() * cards.length)
@@ -195,14 +202,13 @@ function App() {
       arr[i] = arr[index]
       arr[index] = temp
     }
-    setCards(arr)
+    await setCards(arr)
   }
 
   function handleClick(id){
     //  Check click
     for (let i = 0; i < cards.length; i++){
       if (cards[i].id === id){
-        console.log('found')
         if (cards[i].clicked){          
           resetGame()
         }
@@ -213,8 +219,6 @@ function App() {
           tempCard.clicked = true
           arr.splice(i, 1, tempCard)
           setCards(arr)
-
-          console.log(cards)
           incrementScore()
           randomize()
           break;
@@ -245,9 +249,11 @@ function App() {
             )
           })
         }
-      <LoseModal score={score} onPress={hideLoseModal}/>
-      <NewHighScoreModal score={score} onPress={hideScoreModal}/>
+
+      <LoseModal score={score} onPress={hideModals}/>
+      <NewHighScoreModal score={score} onPress={hideModals}/>
       <DarkScreen onPress={hideModals}/>
+
       </div>
     </div>
   );
