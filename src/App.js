@@ -238,6 +238,7 @@ function App() {
         score={score}
         highScore={highScore}
       />
+      <h1>test</h1>
       <div className="card-container">
         {
           cards.map((card) => {
